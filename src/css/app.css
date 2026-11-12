@@ -1,0 +1,191 @@
+@import "tailwindcss";
+
+@source "../../app";
+@source "../../public";
+
+@theme {
+  --color-brand-50: #eff6ff;
+  --color-brand-100: #dbeafe;
+  --color-brand-200: #bfdbfe;
+  --color-brand-300: #93c5fd;
+  --color-brand-400: #60a5fa;
+  --color-brand-500: #3b82f6;
+  --color-brand-600: #2563eb;
+  --color-brand-700: #1d4ed8;
+  --color-brand-800: #1e40af;
+  --color-brand-900: #1e3a8a;
+  --color-ink-950: #0f172a;
+  --font-sans: Inter, ui-sans-serif, system-ui, -apple-system,
+    BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+:root {
+  color-scheme: light;
+}
+html {
+  scroll-behavior: smooth;
+}
+body {
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system,
+    BlinkMacSystemFont, "Segoe UI", sans-serif;
+  background: #f8fafc;
+  color: #0f172a;
+}
+button,
+a,
+input,
+select,
+textarea {
+  -webkit-tap-highlight-color: transparent;
+}
+button:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+.container-app {
+  width: min(1180px, calc(100% - 2rem));
+  margin-inline: auto;
+}
+.card {
+  border: 1px solid #e2e8f0;
+  border-radius: 1rem;
+  background: white;
+  box-shadow: 0 1px 2px rgb(15 23 42 / 0.035);
+}
+.input {
+  width: 100%;
+  border: 1px solid #cbd5e1;
+  border-radius: 0.7rem;
+  background: white;
+  padding: 0.7rem 0.85rem;
+  color: #0f172a;
+  outline: none;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+.input:focus {
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgb(59 130 246 / 0.12);
+}
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border-radius: 0.7rem;
+  background: #2563eb;
+  padding: 0.68rem 1rem;
+  color: white;
+  font-weight: 650;
+  transition: background 0.15s, transform 0.15s;
+}
+.btn-primary:hover {
+  background: #1d4ed8;
+  transform: translateY(-1px);
+}
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border: 1px solid #cbd5e1;
+  border-radius: 0.7rem;
+  background: white;
+  padding: 0.65rem 0.95rem;
+  color: #334155;
+  font-weight: 600;
+  transition: background 0.15s;
+}
+.btn-secondary:hover {
+  background: #f8fafc;
+}
+.btn-danger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  border: 1px solid #fecaca;
+  border-radius: 0.7rem;
+  background: #fff;
+  padding: 0.6rem 0.85rem;
+  color: #b91c1c;
+  font-weight: 600;
+}
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  border-radius: 999px;
+  padding: 0.25rem 0.6rem;
+  font-size: 0.72rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+.sidebar-link {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  border-radius: 0.7rem;
+  padding: 0.7rem 0.8rem;
+  color: #94a3b8;
+  font-size: 0.9rem;
+  font-weight: 550;
+  transition: all 0.15s;
+}
+.sidebar-link:hover,
+.sidebar-link.active {
+  background: rgb(255 255 255 / 0.1);
+  color: white;
+}
+.sidebar-link.active {
+  box-shadow: inset 3px 0 #60a5fa;
+}
+.food-image {
+  aspect-ratio: 4 / 3;
+  width: 100%;
+  object-fit: cover;
+  background: #e2e8f0;
+}
+.table-wrap {
+  overflow-x: auto;
+}
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  font-size: 0.875rem;
+}
+.table th {
+  background: #f8fafc;
+  color: #64748b;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+.table th,
+.table td {
+  border-bottom: 1px solid #f1f5f9;
+  padding: 0.9rem 1rem;
+  vertical-align: middle;
+}
+.table tbody tr:hover {
+  background: #fbfdff;
+}
+.toast {
+  animation: toast-in 0.25s ease-out;
+}
+@keyframes toast-in {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@media (max-width: 767px) {
+  .container-app {
+    width: min(100% - 1.25rem, 1180px);
+  }
+}

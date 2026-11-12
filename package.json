@@ -1,0 +1,14 @@
+{
+  "name": "uibite",
+  "version": "1.0.0",
+  "private": true,
+  "description": "UIBite campus canteen pre-order and management system",
+  "scripts": {
+    "dev": "npx @tailwindcss/cli -i ./src/css/app.css -o ./public/assets/css/app.css --watch",
+    "build": "npx @tailwindcss/cli -i ./src/css/app.css -o ./public/assets/css/app.css --minify"
+  },
+  "devDependencies": {
+    "@tailwindcss/cli": "4.3.5",
+    "tailwindcss": "4.3.5"
+  }
+}

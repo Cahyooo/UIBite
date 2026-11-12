@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" role="img" aria-label="Food placeholder">
+  <defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#dbeafe"/><stop offset="1" stop-color="#fef3c7"/></linearGradient></defs>
+  <rect width="800" height="600" fill="url(#g)"/>
+  <circle cx="400" cy="295" r="150" fill="#fff" opacity=".8"/>
+  <circle cx="400" cy="295" r="112" fill="#f8fafc" stroke="#cbd5e1" stroke-width="8"/>
+  <path d="M335 330c-20-40 8-105 65-105s85 65 65 105c-22 45-108 45-130 0Z" fill="#f59e0b"/>
+  <circle cx="365" cy="280" r="10" fill="#16a34a"/><circle cx="425" cy="260" r="11" fill="#16a34a"/><circle cx="412" cy="320" r="9" fill="#dc2626"/>
+  <text x="400" y="515" text-anchor="middle" font-family="Arial,sans-serif" font-size="28" font-weight="700" fill="#64748b">UIBite Menu</text>
+</svg>

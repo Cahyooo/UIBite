@@ -1,0 +1,5 @@
+/node_modules/
+.env
+/public/assets/css/app.css.map
+/storage/uploads/*
+!/storage/uploads/.gitkeep
