@@ -17,7 +17,6 @@ function action_seller_order_update(): void
                             'pending' => ['confirmed', 'rejected'],
                             'confirmed' => ['preparing'],
                             'preparing' => ['ready'],
-                            'ready' => ['completed'],
                         ];
                         if (!in_array($target, $allowed[$order['order_status']] ?? [], true)) {
                             throw new RuntimeException('Perubahan status tidak diperbolehkan.');
@@ -37,9 +36,6 @@ function action_seller_order_update(): void
                             if ($order['payment_status'] === 'paid') {
                                 $pdo->prepare("UPDATE payments SET payment_status = 'refunded' WHERE order_id = ?")->execute([$orderId]);
                             }
-                        }
-                        if ($target === 'completed' && $order['payment_method'] === 'cash_on_pickup') {
-                            $pdo->prepare("UPDATE payments SET payment_status = 'paid', paid_at = NOW() WHERE order_id = ?")->execute([$orderId]);
                         }
                         $pdo->prepare('UPDATE orders SET order_status = ?, completed_at = IF(? = \'completed\', NOW(), completed_at) WHERE id = ?')->execute([$target, $target, $orderId]);
                         $pdo->commit();

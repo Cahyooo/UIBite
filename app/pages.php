@@ -7,6 +7,7 @@ require_once __DIR__ . '/pages/shared/render_buyer_header.php';
 require_once __DIR__ . '/pages/shared/render_buyer_footer.php';
 require_once __DIR__ . '/pages/shared/render_seller_start.php';
 require_once __DIR__ . '/pages/shared/render_seller_end.php';
+require_once __DIR__ . '/pages/shared/render_pickup_confirm.php';
 require_once __DIR__ . '/pages/catalog/product_card.php';
 require_once __DIR__ . '/pages/catalog/render_home.php';
 require_once __DIR__ . '/pages/catalog/render_store_page.php';

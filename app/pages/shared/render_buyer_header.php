@@ -19,7 +19,7 @@ function render_buyer_header(string $title): void
         <script src="https://unpkg.com/lucide@0.468.0/dist/umd/lucide.min.js" defer></script>
     </head>
 
-    <body class="min-h-screen bg-slate-50 text-slate-900 antialiased">
+    <body class="flex min-h-screen flex-col bg-slate-50 text-slate-900 antialiased">
         <header class="sticky top-0 z-40 border-b border-slate-200/80 bg-white/95 backdrop-blur">
             <div class="container-app flex h-[72px] items-center justify-between gap-4">
                 <a href="<?= e(url('home')) ?>" class="flex shrink-0 items-center gap-2.5">
@@ -47,6 +47,6 @@ function render_buyer_header(string $title): void
             </div>
         </header>
         <?php render_flashes(); ?>
-        <main>
+        <main class="flex flex-1 flex-col">
         <?php
     }

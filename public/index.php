@@ -53,6 +53,9 @@ try {
             require_role('seller');
             render_seller_orders();
             break;
+        case 'pickup.confirm':
+            render_pickup_confirm();
+            break;
         case 'seller.products':
             require_role('seller');
             render_seller_products();

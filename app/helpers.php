@@ -33,6 +33,43 @@ function url(string $route = 'home', array $params = []): string
     return base_url() . '/index.php?' . http_build_query(array_merge(['r' => $route], $params));
 }
 
+function absolute_url(string $route = 'home', array $params = []): string
+{
+    $configured = trim((string) env('APP_PUBLIC_URL', ''));
+    if ($configured !== '') {
+        return rtrim($configured, '/') . '/index.php?' . http_build_query(array_merge(['r' => $route], $params));
+    }
+
+    $scheme = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? 'https' : 'http';
+    $host = (string) ($_SERVER['HTTP_HOST'] ?? 'localhost');
+
+    return $scheme . '://' . $host . url($route, $params);
+}
+
+/**
+ * True when the current request host is only reachable from this machine
+ * (e.g. "localhost" or "127.0.0.1"). A QR built from this host cannot be
+ * scanned by another device, so callers should prompt for APP_PUBLIC_URL.
+ */
+function is_loopback_host(string $host): bool
+{
+    $hostOnly = explode(':', $host)[0];
+    return in_array($hostOnly, ['localhost', '127.0.0.1', '::1'], true);
+}
+
+/**
+ * True when a cross-device scan (e.g. seller scanning a buyer's QR) can
+ * reach this app: either APP_PUBLIC_URL is configured, or the current
+ * request already came in through a non-loopback (LAN) host.
+ */
+function is_cross_device_url_ready(): bool
+{
+    if (trim((string) env('APP_PUBLIC_URL', '')) !== '') {
+        return true;
+    }
+    return !is_loopback_host((string) ($_SERVER['HTTP_HOST'] ?? 'localhost'));
+}
+
 function asset(string $path): string
 {
     return base_url() . '/assets/' . ltrim($path, '/');
