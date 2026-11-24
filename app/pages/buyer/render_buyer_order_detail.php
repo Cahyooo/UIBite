@@ -38,16 +38,26 @@ function render_buyer_order_detail(): void
                         </div><?php else: ?><div class="mt-6 grid grid-cols-5 gap-1"><?php foreach ($stepOrder as $index => $step): $done = $currentIndex !== false && $index <= $currentIndex; ?><div class="h-1.5 rounded-full <?= $done ? 'bg-brand-600' : 'bg-slate-100' ?>"></div><?php endforeach; ?></div>
                         <div class="mt-5 grid grid-cols-2 gap-3 sm:grid-cols-5"><?php foreach ($steps as $step => $label): $done = $currentIndex !== false && array_search($step, $stepOrder, true) <= $currentIndex; ?><div class="flex items-start gap-2"><span class="grid h-6 w-6 shrink-0 place-items-center rounded-full <?= $done ? 'bg-brand-600 text-white' : 'bg-slate-100 text-slate-400' ?>"><i data-lucide="<?= $done ? 'check' : 'circle' ?>" class="h-3 w-3"></i></span><span class="text-[11px] leading-4 <?= $done ? 'font-bold text-slate-700' : 'text-slate-400' ?>"><?= e($label) ?></span></div><?php endforeach; ?></div><?php endif; ?>
                 </div>
-                <?php if ($order['order_status'] === 'ready'): ?><div class="rounded-2xl border border-emerald-200 bg-emerald-50 p-5">
+                <?php if ($order['order_status'] === 'ready'): ?><?php $pickupScanUrl = absolute_url('pickup.confirm', ['id' => (int) $order['id'], 'code' => (string) $order['pickup_code']]);
+                                                                $pickupQrImageUrl = 'https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=' . rawurlencode($pickupScanUrl); ?><div class="rounded-2xl border border-emerald-200 bg-emerald-50 p-5">
                         <div class="flex items-center gap-2 text-emerald-800"><i data-lucide="party-popper" class="h-5 w-5"></i>
                             <h2 class="font-extrabold">Pesanan siap diambil!</h2>
                         </div>
-                        <p class="mt-1 text-sm text-emerald-700">Silakan datang ke <?= e($order['store_name']) ?> dan tunjukkan kode pickup berikut.</p>
-                        <div class="mt-4 rounded-xl border border-dashed border-emerald-300 bg-white px-4 py-3 text-center">
-                            <p class="text-[10px] font-bold uppercase tracking-[.18em] text-emerald-600">Pickup code</p>
-                            <p class="mt-1 font-mono text-3xl font-extrabold tracking-[.2em] text-slate-900"><?= e($order['pickup_code']) ?></p>
+                        <p class="mt-1 text-sm text-emerald-700">Tunjukkan QR pickup berikut ke seller di <?= e($order['store_name']) ?>. Begitu seller scan QR ini, pesanan otomatis ditandai selesai.</p>
+                        <div class="mt-4 rounded-xl border border-dashed border-emerald-300 bg-white px-4 py-5 text-center">
+                            <p class="text-[10px] font-bold uppercase tracking-[.18em] text-emerald-600">Pickup QR</p>
+                            <img src="<?= e($pickupQrImageUrl) ?>" alt="QR pickup <?= e($order['order_code']) ?>" class="mx-auto mt-3 h-44 w-44 rounded-lg border border-slate-100 bg-white p-2">
+                            <p class="mt-3 text-[11px] font-mono font-bold tracking-widest text-slate-500"><?= e($order['pickup_code']) ?></p>
                         </div>
-                    </div><?php endif; ?>
+                        <p class="mt-2 text-center text-[11px] text-emerald-700">Halaman ini menyegarkan diri secara berkala, status akan berubah otomatis setelah QR berhasil discan.</p><?php if (!is_cross_device_url_ready()): ?><div class="mt-3 rounded-lg border border-amber-200 bg-amber-50 p-3 text-[11px] leading-5 text-amber-800"><strong>Perhatian:</strong> server masih diakses lewat <code><?= e((string) ($_SERVER['HTTP_HOST'] ?? 'localhost')) ?></code>, alamat ini tidak bisa dijangkau dari HP lain. Set <code>APP_PUBLIC_URL</code> di <code>.env</code> ke alamat IP LAN komputer ini (mis. <code>http://192.168.1.10:8000</code>) dan jalankan server dengan <code>php -S 0.0.0.0:8000 -t public</code> agar QR dapat discan dari perangkat lain.</div><?php endif; ?>
+                        </div>
+                    </div>
+                    <script>
+                        // Pesanan masih menunggu pickup: segarkan halaman secara berkala
+                        // agar status "selesai" muncul otomatis setelah QR discan.
+                        setTimeout(function () { window.location.reload(); }, 6000);
+                    </script>
+                <?php endif; ?>
                 <div class="card p-5">
                     <div class="mb-4 flex items-center justify-between">
                         <h2 class="font-extrabold">Item pesanan</h2><span class="text-xs text-slate-400"><?= count($items) ?> jenis</span>

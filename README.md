@@ -68,6 +68,7 @@ Salin `.env.example` menjadi `.env`, lalu sesuaikan koneksi database:
 ```ini
 APP_NAME="UIBite"
 APP_URL=""
+APP_PUBLIC_URL=""
 APP_ENV="local"
 DB_HOST="127.0.0.1"
 DB_PORT="3306"
@@ -78,6 +79,7 @@ DB_PASS=""
 
 - `APP_URL` boleh dikosongkan jika aplikasi dijalankan dari PHP built-in server dengan document root `public`.
 - Jika menggunakan XAMPP dan folder proyek berada di `htdocs/UIBite`, gunakan `APP_URL="/UIBite/public"`.
+- `APP_PUBLIC_URL` opsional. Isi hanya jika ingin mengaktifkan akses dari perangkat lain di jaringan yang sama (contoh `http://192.168.1.10:8000`) agar QR pickup bisa discan dari HP seller. Jika dikosongkan, aplikasi tetap berjalan lokal di `localhost`.
 - Pastikan extension `pdo_mysql` aktif di `php.ini`.
 
 ## 5. Install dan build Tailwind CSS CLI
@@ -105,10 +107,16 @@ Dari root folder UIBite:
 php -S localhost:8000 -t public
 ```
 
-Buka browser ke:
+Default di atas hanya membuka akses lokal (komputer ini saja):
 
 ```text
 http://localhost:8000
+```
+
+Jika sewaktu-waktu ingin mengaktifkan akses LAN lagi untuk scan QR dari perangkat lain, isi `APP_PUBLIC_URL` lalu jalankan:
+
+```bash
+php -S 0.0.0.0:8000 -t public
 ```
 
 Alternatif XAMPP: letakkan folder di `htdocs`, import SQL, atur `APP_URL` di `.env`, lalu buka `http://localhost/UIBite/public`.
@@ -138,8 +146,8 @@ Pembeli baru juga dapat melakukan registrasi dari halaman daftar. Registrasi pub
 4. Checkout dan pilih **Cash on Pickup**.
 5. Logout atau buka browser lain, lalu login sebagai seller tenant terkait.
 6. Terima pesanan → mulai siapkan → tandai siap pickup.
-7. Login kembali sebagai buyer, tampilkan kode pickup.
-8. Seller menyelesaikan pesanan. Untuk cash, pembayaran ditandai paid saat pesanan diselesaikan.
+7. Login kembali sebagai buyer, tampilkan QR pickup di halaman detail pesanan.
+8. Buyer menunjukkan QR tersebut ke seller. Seller scan QR itu dengan kamera ponsel/webcam apa pun — **tidak perlu login dulu** di perangkat yang scan, karena kode pickup pada QR itu sendiri yang menjadi bukti otorisasi. Setelah discan, langsung muncul halaman "Pesanan selesai!" dan pesanan otomatis ditandai completed. Untuk cash, pembayaran ditandai paid saat itu juga. Halaman buyer dan daftar pesanan seller menyegarkan diri otomatis setiap beberapa detik sehingga status "Selesai" muncul tanpa perlu refresh manual.
 
 ### Demo B — QRIS simulation
 
@@ -164,7 +172,7 @@ Pembeli baru juga dapat melakukan registrasi dari halaman daftar. Registrasi pub
 - Harga dan nama produk disimpan sebagai snapshot di `order_items`, supaya riwayat transaksi tidak berubah saat seller mengubah menu.
 - Stok dikurangi saat pesanan dibuat. Jika pesanan dibatalkan atau ditolak, stok dikembalikan dan dicatat di `stock_movements`.
 - QRIS simulasi berstatus pending sampai buyer menekan tombol simulasi sukses. Seller tidak dapat menerima pesanan digital yang belum dibayar.
-- Cash on Pickup berstatus unpaid sampai seller menyelesaikan pesanan.
+- Cash on Pickup berstatus unpaid sampai seller scan QR pickup milik buyer dan pesanan otomatis selesai.
 - Review hanya dapat diberikan pembeli untuk item dari pesanan yang completed; satu item pesanan hanya punya satu review.
 - Produk dinonaktifkan (soft hide) agar data transaksi lama tetap mengacu ke produk yang sama.
 
