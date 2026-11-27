@@ -55,7 +55,7 @@ function render_buyer_order_detail(): void
                     <script>
                         // Pesanan masih menunggu pickup: segarkan halaman secara berkala
                         // agar status "selesai" muncul otomatis setelah QR discan.
-                        setTimeout(function () { window.location.reload(); }, 6000);
+                        setTimeout(function () { window.location.reload(); }, 100000);
                     </script>
                 <?php endif; ?>
                 <div class="card p-5">
